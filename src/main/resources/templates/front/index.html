@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!--引用css文件-->
+    <th:block th:replace="commont/common_header::commonHeader('联单信息')"></th:block>
+    <!--引用js文件-->
+    <th:block th:include="commont/common_header::commonFooter"></th:block>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .select2-selection--single {
+            height: 34px;
+            line-height: 34px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // select2使用
+            $('.select').select2({width: 'resolve'});
+            // 表格
+            $("#table").bootstrapTable({ // 对应table标签的id
+                url: "/dev/index", // 获取表格数据的url
+                dataType: 'json',
+                cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+                striped: true,  //表格显示条纹，默认为false
+                pagination: true, // 在表格底部显示分页组件，默认false
+                pageList: [5, 10, 20, 50, 100], // 设置页面可以显示的数据条数
+                pageSize: 10, // 默认页面显示数据条数
+                pageNumber: 1, // 首页页码
+                queryParamsType: 'limit',
+                locale: 'zh-CN', //中文支持
+                toolbar: '#toolbar', // 工具按钮用哪个容器
+                showColumns: true, //是否显示所有的列（选择显示的列）
+                showRefresh: false, //刷新按钮
+                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                cardView: false,//是否显示详细视图
+                clickToSelect: true,//是否启用点击选中行
+                showExport: true,//是否显示导出
+                exportTypes: ['excel'],  //导出文件类型
+                // exportTypes:[ 'csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],  //导出文件类型
+                exportDataType: "selected",//basic', 'all', 'selected'. 当前页、所有数据还是选中数据
+                detailView: false,//是否显示父子表
+                sidePagination: 'server', // 设置为server服务器端分页 client客户端
+                queryParams: function (params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
+                    return {
+                        pageSize: params.limit, // 每页要显示的数据条数
+                        offset: params.offset, // 每页显示数据的开始行号
+                        // sort: params.sort, // 要排序的字段
+                        // sortOrder: params.order, // 排序规则
+                        punitName: $("#punitName").val(),// 产生单位名称
+                        hunitName: $("#hunitName").val(),// 处置单位名称
+                        applyCode: $("#applyCode").val(),// 联单编号
+                        planType: $("#planType option:selected").val()// 转移类型
+
+                    }
+                },
+                // sortable: true,// 排序
+                // sortName: 'id', // 要排序的字段
+                // sortOrder: 'desc', // 排序规则
+                columns: [
+                    {
+                        radio: true, // 显示一个单选选框
+                        align: 'center', // 左右居中
+                        valign: 'middle', // 上下居中
+
+                    },
+                    {
+                        field: 'applyInfo', // 返回json数据中的name
+                        title: '编号', // 表格表头显示文字 联单号
+                        align: 'center', // 左右居中
+                        valign: 'middle',// 上下居中
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.applyCode;
+                        }
+                    },
+
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '产生单位名称',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitName;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '处置单位名称',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitName;
+                        }
+
+                    },
+
+                    {
+                        field: 'writeRes',
+                        title: '废物名称',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resName;
+                        }
+
+                    },
+                    {
+                        field: 'writeRes',
+                        title: '废物代码',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resCode;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '转移数据', // 转移剩余量
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.weight;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '转移时间',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.date;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '接收量',//实际接收数量
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.weight;
+                        }
+
+                    },
+
+                    {
+                        field: 'receiptFormula',
+                        title: '转移计划类型',//转移类型
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            var type = '';
+                            var planType = value.planType;
+                            if (planType == "plan_report") {
+                                type = "本市联单";
+                            } else if (planType == "plan_report_spec") {
+                                type = "跨市转出";
+                            } else if (planType == "plan_report_spec55") {
+                                type = "跨省转出";
+                            } else if (planType == "plan_report_spec1") {
+                                type = "跨市转入";
+                            } else if (planType == "plan_report_spec155") {
+                                type = "跨省转入";
+                            } else {
+                                type = "暂无"
+                            }
+
+                            return type;
+                        }
+                    },
+
+                    {
+                        field: 'writeRes',
+                        title: '备案状态',//形态
+                        align: 'center',
+                        valign: 'middle',
+                        visible: true,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resForm;
+                        }
+
+                    },
+
+                    {
+                        field: 'sinotransPurpose',
+                        title: '外运目的',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false//是否显示
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '运输时间',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].date;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '车（船）型号',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].carType;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '车牌号',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].carNum;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '道路运输证',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].transportNum;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '运输起点',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].startAddress;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '运输终点',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].endAddress;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '车牌号',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].carNum;
+                        }
+
+                    }, {
+                        field: 'transportInfo',
+                        title: '运输人签字',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].signature;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: ' 经由地',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].processAddress;
+                        }
+
+                    },
+                    {
+                        field: 'transportInfo',
+                        title: '承运单位',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value[0].userName;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '接受日期',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.date;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '负责人签字',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.mainName;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '接收人',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.name;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '签字日期',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitWriteDate;
+                        }
+
+                    },
+
+
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '处置单位联系电话',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.contactTele;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '经营许可证号',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.licenseNum;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '处置单位地址',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitAddr;
+                        }
+
+                    },
+
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '处置单位邮编',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.zipCode;
+                        }
+
+                    },
+
+                    // 未知
+                    // {
+                    //     field: 'writeReceiptProduce',
+                    //     title: '未知',
+                    //     align: 'center',
+                    //     valign: 'middle',
+                    //     formatter: function (value, row, index) {   //主要配置在这里
+                    //         console.log(value)
+                    //         return value.mainName;
+                    //     }
+                    //
+                    // },
+
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '发运人',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.name;
+                        }
+
+                    },
+                    // 未知
+                    // {
+                    //     field: 'writeReceiptProduce',
+                    //     title: '未知',
+                    //     align: 'center',
+                    //     valign: 'middle',
+                    //     formatter: function (value, row, index) {   //主要配置在这里
+                    //         console.log(value)
+                    //         return value.unitWriteDate;
+                    //     }
+                    //
+                    // },
+
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '产生单位联系电话',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.contactTele;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '运达地',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.startAddress;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '产生单位单位地址',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitAddr;
+                        }
+
+                    },
+
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '产生单位邮政编码',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.zipCode;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '运输单位联系电话',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.contactTele;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '运输单位地址',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitAddr;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '运输单位名称',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.unitName;
+                        }
+
+                    },
+                    {
+                        field: 'writeReceiptProduce',
+                        title: '运输单位邮编',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.unitBaseInfo.zipCode;
+                        }
+
+                    },
+                    {
+                        field: 'writeRes',
+                        title: '处理方式',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.handleStyle;
+                        }
+
+                    },
+                    {
+                        field: 'writeRes',
+                        title: '参考危险物类型',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.referStyle;
+                        }
+
+                    },
+
+                    {
+                        field: 'writeRes',
+                        title: '主要成分',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resDetail;
+                        }
+
+                    },
+                    {
+                        field: 'writeRes',
+                        title: '危险特性',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resFeature;
+                        }
+
+                    },
+
+
+                    {
+                        field: 'writeRes',
+                        title: '包装方式',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.resPackage;
+                        }
+
+                    },
+                    {
+                        field: 'writeRes',
+                        title: '禁忌与应急措施',
+                        align: 'center',
+                        valign: 'middle',
+                        visible: false,//是否显示
+                        formatter: function (value, row, index) {   //主要配置在这里
+                            return value.taboo;
+                        }
+
+                    },
+
+
+                ],
+                silent: true, // 刷新事件必须设置
+                onLoadSuccess: function () {  //加载成功时执行
+                    console.info("加载成功");
+                },
+                onLoadError: function () {  //加载失败时执行
+                    console.info("加载数据失败");
+                },
+                onClickRow: function (row, $element, field) {
+                    /*
+                    onDblClickRow：双击点击事件;
+                    onClickRow: 单点;
+                    row：该列的内容；
+                    $element：tr元素；
+                    field：列对应的field名称
+                    */
+
+                    return row;
+                    var id = row.id;
+                    // console.log("数据:" + row.applyInfo.applyCode);
+                    // $('#qrcode').html("");
+                    // var qrcode = new QRCode('qrcode', {
+                    //     width: 256,
+                    //     height: 256,
+                    //     colorDark: '#000000',
+                    //     colorLight: '#ffffff',
+                    //     correctLevel: QRCode.CorrectLevel.H
+                    // });
+                    // // 使用 API
+                    // qrcode.clear();
+                    // qrcode.makeCode(row.applyInfo.applyCode);
+                    //
+                    // //页面层
+                    //
+                    // layer.open({
+                    //     type: 1,
+                    //     title:"二维码",
+                    //     area: ['300px', '320px'], //宽高
+                    //     content: $('#qrcode'),
+                    //     shadeClose: false,//关闭按钮
+                    //     maxmin: true, //开启最大化最小化按钮
+                    // });
+                    // layer.open({
+                    //     type: 1,
+                    //     title: false,
+                    //     // closeBtn: 1, //0不显示关闭按钮，1显示
+                    //     shade: [0],
+                    //     // offset: 'rb', //右下角弹出
+                    //     shadeClose: false,//关闭按钮
+                    //     maxmin: true, //开启最大化最小化按钮
+                    //     area: ['893px', '600px'],//尺寸
+                    //     // time: 2000, //2秒后自动关闭
+                    //     anim: 2,
+                    //     title: '详细信息',
+                    //     content: ["https://www.baidu.com", 'no'], //iframe的url，no代表不显示滚动条
+                    // end: function(){//当上面的ifream关闭后才显示
+                    //     layer.open({
+                    //         type: 2,
+                    //         title: '很多时候，我们想最大化看，比如像这个页面。',
+                    //         shadeClose: true,
+                    //         shade: false,
+                    //         maxmin: true, //开启最大化最小化按钮
+                    //         area: ['893px', '600px'],
+                    //         content: '//fly.layui.com/'
+                    //     });
+                    // }
+                    // });
+
+                },
+
+            })
+
+            //操作栏的格式化
+            function actionFormatter(value, row, index) {
+                //value 获取的是field的值，row 获取的是自身栏的所有值，index，获取的该栏的位置即下标
+                var id = value;
+                var result = "";
+                result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+                result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+                result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+                return result;
+            }
+
+
+            // 查询
+            $("#btn_query").click(function () {
+
+                $("#txt_search_name2 option:selected").val();// 获取select的值
+                // $('#table').bootstrapTable('refresh');//刷新
+                $('#table').tableExport({ type: 'excel', escape: 'false' });
+                console.log($("#table").bootstrapTable('getSelections'));
+                $('#qrcode').html("");
+                var qrcode = new QRCode('qrcode', {
+                    width: 256,
+                    height: 256,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                // 使用 API
+                qrcode.clear();
+                qrcode.makeCode("测试数据");
+
+                //页面层
+
+                layer.open({
+                    type: 1,
+                    title:"二维码",
+                    area: ['300px', '320px'], //宽高
+                    content: $('#qrcode'),
+                    shadeClose: false,//关闭按钮
+                    maxmin: true //开启最大化最小化按钮
+                });
+
+            });
+            // 获取点击的value
+
+            // $("#table").on('click-row.bs.table', function (e, row, element){
+            //
+            // });
+            // 重置
+            $("#btn_reset").click(function () {
+                $("#punitName").val("");// 产生单位名称
+                $("#hunitName").val("");// 处置单位名称
+                $("#applyCode").val("");// 联单编号
+                $('#planType').val(null).trigger("change");// 转移类型
+                $('#table').bootstrapTable('refresh');//刷新
+
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">联单信息</div>
+        <div class="panel-body" style="padding-bottom:0px;">
+            <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading">查询条件</div>-->
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+
+                        <label class="control-label col-sm-1" for="punitName">产生单位名称</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="punitName">
+                        </div>
+
+                        <label class="control-label col-sm-1" for="hunitName">处置单位名称</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="hunitName">
+                        </div>
+
+                        <label class="control-label col-sm-1" for="planType">转移类型</label>
+                        <div class="col-sm-2">
+                            <select class="select form-control" id="planType">
+                                <option value="">请选择</option>
+                                <option value="plan_report">本市联单</option>
+                                <option value="plan_report_spec">跨市转出</option>
+                                <option value="plan_report_spec55">跨省转出</option>
+                                <option value="plan_report_spec1">跨市转入</option>
+                                <option value="plan_report_spec155">跨省转入</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-1" for="applyCode">联单编号</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="applyCode">
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" id="btn_query" class="btn btn-primary ">
+                                <span class="glyphicon glyphicon-search"></span> 查询
+
+                            </button>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" id="btn_reset" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-refresh"></span> 重置
+
+                            </button>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="btn_export" class="btn btn-primary"
+                                    onClick="$('#table').tableExport({ type: 'excel', escape: 'false' })">
+                                <span class="glyphicon glyphicon-refresh"></span> 重置
+
+                            </button>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <!--</div>-->
+        </div>
+        <!--bootstrap-table-->
+        <table id="table"></table>
+    </div>
+    <div id='qrcode' style="display: none;"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.ting.dev.dao.CompanyDao">
+    <sql id="company">
+       unitName AS "unitName",
+       zipCode AS "zipCode",
+       unitCode AS "unitCode",
+       legalRep AS "legalRep",
+       legalTele AS "legalRep",
+       unitAddr AS "unitAddr",
+       contactName AS "contactName",
+       contactTele AS "contactTele",
+       fax AS "fax",
+       mail AS "mail",
+       otherAddress AS "otherAddress",
+       otherZip AS "otherZip",
+       limitTime AS "limitTime",
+       area AS "area",
+       licenseValid AS "licenseValid",
+       hylbfy AS "hylbfy",
+       coordinate AS "coordinate",
+       remark AS "remark",
+       registrationNum AS "registrationNum",
+       licenseNum AS "licenseNum"
+
+    </sql>
+
+
+    <!--查询总数-->
+    <select id="count" resultType="int">
+        SELECT COUNT(id) FROM company
+    </select>
+
+    <select id="findList" resultType="com.java.ting.dev.entity.Company">
+        SELECT
+        <include refid="company"></include>
+        from company
+    </select>
+
+    <select id="findUser" resultType="com.java.ting.dev.entity.Company">
+        SELECT
+        <include refid="company"></include>
+        from company where name=#{name}
+    </select>
+
+    <select id="findUserPage" resultType="com.java.ting.dev.entity.Company">
+        SELECT
+        <include refid="company"></include>
+        from company
+        <if test="offset!=null">
+            <if test="name!=null">where name=#{name}</if>
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <!--单条数据插入-->
+    <insert id="insert">
+        INSERT INTO company (
+         id,
+         unitName,
+         zipCode,
+         unitCode,
+         legalRep,
+         legalTele,
+         unitAddr,
+         contactName,
+         contactTele,
+         fax,
+         mail,
+         otherAddress,
+         otherZip,
+         limitTime,
+         area,
+         licenseValid,
+         hylbfy,
+         coordinate,
+         remark,
+         registrationNum,
+         licenseNum
+
+        ) VALUES (
+        #{id},
+         #{unitName},
+         #{zipCode},
+         #{unitCode},
+         #{legalRep},
+         #{legalTele},
+         #{unitAddr},
+         #{contactName},
+         #{contactTele},
+         #{fax},
+         #{mail},
+         #{otherAddress},
+         #{otherZip},
+         #{limitTime},
+         #{area},
+         #{licenseValid},
+         #{hylbfy},
+         #{coordinate},
+         #{remark},
+         #{registrationNum},
+         #{licenseNum}
+
+        )
+    </insert>
+
+    <!--循环插入所有数据-->
+    <insert id="insertAll">
+        INSERT INTO company (
+        id,
+        unitName,
+        zipCode,
+        unitCode,
+        legalRep,
+        legalTele,
+        unitAddr,
+        contactName,
+        contactTele,
+        fax,
+        mail,
+        otherAddress,
+        otherZip,
+        limitTime,
+        area,
+        licenseValid,
+        hylbfy,
+        coordinate,
+        remark,
+        registrationNum,
+        licenseNum
+
+        ) VALUES
+        <foreach collection="list" item="companyList" index="index" separator=",">
+            (
+            #{companyList.id,jdbcType=VARCHAR},
+            #{companyList.unitName,jdbcType=VARCHAR},
+            #{companyList.zipCode,jdbcType=VARCHAR},
+            #{companyList.unitCode,jdbcType=VARCHAR},
+            #{companyList.legalRep,jdbcType=VARCHAR},
+            #{companyList.legalTele,jdbcType=VARCHAR},
+            #{companyList.unitAddr,jdbcType=VARCHAR},
+            #{companyList.contactName,jdbcType=VARCHAR},
+            #{companyList.contactTele,jdbcType=VARCHAR},
+            #{companyList.fax,jdbcType=VARCHAR},
+            #{companyList.mail,jdbcType=VARCHAR},
+            #{companyList.otherAddress,jdbcType=VARCHAR},
+            #{companyList.otherZip,jdbcType=VARCHAR},
+            #{companyList.limitTime,jdbcType=VARCHAR},
+            #{companyList.area,jdbcType=VARCHAR},
+            #{companyList.licenseValid,jdbcType=VARCHAR},
+            #{companyList.hylbfy,jdbcType=VARCHAR},
+            #{companyList.coordinate,jdbcType=VARCHAR},
+            #{companyList.remark,jdbcType=VARCHAR},
+            #{companyList.registrationNum,jdbcType=VARCHAR},
+            #{companyList.licenseNum,jdbcType=VARCHAR}
+            )
+        </foreach>
+
+    </insert>
+
+    <!--删除所有数据-->
+    <delete id="deleteAll">
+        DELETE from company
+    </delete>
+
+</mapper>

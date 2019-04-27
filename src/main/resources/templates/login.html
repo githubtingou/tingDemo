@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <th:block th:include="commont/common_header::commonHeader('登陆页面')"></th:block>
+    <th:block th:include="commont/common_header::commonFooter"></th:block>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .row {
+            margin: 60px auto 0px;
+        }
+
+        .btn {
+            margin: 0 auto;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    layer.load(2, {shade: [0.1, '#fff']});
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    // $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        // error.appendTo(element.parent().parent());
+                        layer.tips(error[0].innerText, element.parent().parent(), {tipsMore: true});
+                    } else {
+                        // error.insertAfter(element);
+                        layer.tips(error[0].innerText, element, {tipsMore: true});
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-offset-4 col-md-5 column">
+            <!-- 项目名 -->
+            <div class="text-center"><h1 class="text-primary">TingOu</h1></div>
+            <!--spring security 错误提示-->
+            <th:block th:if="${param.error}">
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    </button>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;
+                    </button>
+                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+                </div>
+
+            </th:block>
+
+            <th:block th:if="${param.logout}">
+                <div class="alert alert- alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        &times;
+                    </button>
+                    您已注销成功！
+                </div>
+            </th:block>
+            <form role="form" th:action="@{/login}" method="POST" id="inputForm"
+                  class="form-horizontal bs-example bs-example-form">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-user" title="用户名"></span></div>
+                    <input type="text" name="username" placeholder="请输入用户名"
+                           class="form-control required" id="username"/>
+                </div>
+                <br/>
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-lock" title="密码"></span></div>
+                    <input type="password" name="password" placeholder="请输入密码"
+                           class="form-control required" id="password"/>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="checkbox pull-right">
+                            <label>
+                                <input type="checkbox" id="remember-me" name="remember-me">请记住我
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="submit" class="btn btn-primary col-xs-12 col-sm-12" id="login-submit">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

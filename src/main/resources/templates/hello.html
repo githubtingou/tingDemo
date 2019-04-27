@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <th:block th:include="commont/common_header::commonHeader('主页')"></th:block>
+    <th:block th:include="commont/common_header::commonFooter"></th:block>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/find/user">
+    用户名： <input type="text" name="name" id="name">
+    密码： <input type="text" name="password" id="password">
+    年龄：<input type="number" name="age" id="age" >
+    <input type="submit" value="提交">
+
+</form>
+</body>
+</html>

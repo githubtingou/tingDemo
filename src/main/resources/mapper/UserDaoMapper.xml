@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.ting.dev.dao.UserDao">
+    <sql id="user">
+     id as "id",
+     name as "name",
+     age as "age",
+     password as "password",
+     status as "status"
+
+    </sql>
+    <select id="findList" resultType="com.java.ting.dev.entity.User">
+        SELECT
+        <include refid="user"></include>
+        from user
+    </select>
+
+    <select id="findUser" resultType="com.java.ting.dev.entity.User">
+        SELECT
+        <include refid="user"></include>
+        from user
+        <if test="name!=null">
+            where name=#{name}
+        </if>
+
+    </select>
+    <select id="findUserPage" resultType="com.java.ting.dev.entity.User">
+        SELECT
+        <include refid="user"></include>
+        from user
+        <if test="offset!=null">
+            <if test="name!=null">where name=#{name}</if>
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <insert id="insert">
+    INSERT INTO user(
+		 id,
+         name,
+         age,
+        password
+		) VALUES (
+		#{id},
+		#{name},
+		#{age},
+		#{password}
+		)
+    </insert>
+
+
+</mapper>

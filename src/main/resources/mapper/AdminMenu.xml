@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.ting.application.system.dao.AdminMenuDao">
+    <sql id="adminMenuSql">
+      id AS "id",
+      parent_id AS "parentId",
+      parent_ids AS "parentIds",
+      tree_code AS "treeCode",
+      menu_name AS "menuName",
+      menu_href AS "menuHref",
+      menu_target AS "menuTarget",
+      menu_icon AS "menuIcon",
+      permission AS "permission",
+      is_show AS "isShow",
+      status AS "status",
+      create_by AS "createBy",
+      create_date AS "createDate",
+      update_by AS "updateBy",
+      update_date AS "update_date",
+      remarks AS "remarks"
+    </sql>
+    <select id="findParentList" resultType="com.java.ting.application.system.entity.AdminMenu">
+        SELECT
+        <include refid="adminMenuSql"/>
+        FROM admin_menu
+
+    </select>
+
+</mapper>

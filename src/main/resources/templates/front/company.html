@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!--引用css文件-->
+    <th:block th:replace="commont/common_header::commonHeader('企业查询')"></th:block>
+    <!--引用js文件-->
+    <th:block th:include="commont/common_header::commonFooter"></th:block>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .select2-selection--single{
+            height:34px;
+            line-height: 34px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // select2使用
+            $('.select').select2({width: 'resolve'});
+            // 表格
+            $("#table").bootstrapTable({ // 对应table标签的id
+                url: "/dev/company", // 获取表格数据的url
+                dataType: 'json',
+                cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+                striped: true,  //表格显示条纹，默认为false
+                pagination: true, // 在表格底部显示分页组件，默认false
+                pageList: [5, 10, 20, 50, 100], // 设置页面可以显示的数据条数
+                pageSize: 10, // 默认页面显示数据条数
+                pageNumber: 1, // 首页页码
+                queryParamsType: 'limit',
+                locale: 'zh-CN', //中文支持
+                toolbar: '#toolbar', // 工具按钮用哪个容器
+                showColumns: true, //是否显示所有的列（选择显示的列）
+                showRefresh: false, //刷新按钮
+                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                cardView: false,//是否显示详细视图
+                clickToSelect: true,
+                showExport: true,//是否显示导出
+                exportDataType: "basic",//basic', 'all', 'selected'. 当前页、所有数据还是选中数据
+                detailView: false,//是否显示父子表
+                sidePagination: 'server', // 设置为server服务器端分页 client客户端
+                queryParams: function (params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
+                    return {
+                        pageSize: params.limit, // 每页要显示的数据条数
+                        offset: params.offset, // 每页显示数据的开始行号
+                        unitName: $("#unitName").val(),// 企业名称
+                        unitCode: $("#unitCode").val()// 组织机构代码
+
+                    }
+                },
+                // sortable: true,// 排序
+                // sortName: 'id', // 要排序的字段
+                // sortOrder: 'desc', // 排序规则
+                columns: [
+                    // {
+                    //     checkbox: true, // 显示一个勾选框
+                    //     align: 'center', // 左右居中
+                    //     valign: 'middle' // 上下居中
+                    // },
+                    {
+                        field: 'unitName', // 返回json数据中的name
+                        title: '单位名称', // 表格表头显示文字
+                        align: 'center', // 左右居中
+                        valign: 'middle',// 上下居中
+                        // visible:false,//是否显示
+
+                    }, {
+                        field: 'unitCode',
+                        title: '组织机构代码(统一社会信息代码)',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'legalRep',
+                        title: '法人代表',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'legalTele',
+                        title: '法人联系电话',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'unitAddr',
+                        title: '单位地址',
+                        align: 'center',
+                        valign: 'middle',
+                    },
+                    {
+                        field: 'zipCode',
+                        title: '邮政编码',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'contactName',
+                        title: '联系人',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'contactTele',
+                        title: '联系人联系电话',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'fax',
+                        title: '传真号码',
+                        align: 'center',
+                        valign: 'middle',
+
+
+                    },
+                    {
+                        field: 'zipCode',
+                        title: '邮政编码',
+                        align: 'center',
+                        valign: 'middle',
+
+                    }, {
+                        field: 'mail',
+                        title: '电子邮件',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'otherAddress',
+                        title: ' 其他地址',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'otherZip',
+                        title: '其他地址邮政编码',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'limitTime',
+                        title: '许可证有效期',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'area',
+                        title: '区域',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'licenseValid',
+                        title: '颁发日期',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'hylbfy',
+                        title: '行业类别',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+
+                    {
+                        field: 'coordinate',
+                        title: '经纬度',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'remark',
+                        title: '单位简介',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '经营许可证号',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'registrationNum',
+                        title: '企业排污登记号',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'writeReceiptHandle',
+                        title: '处置单位名称',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+                    {
+                        field: 'licenseNum',
+                        title: '危废经营许可证',
+                        align: 'center',
+                        valign: 'middle',
+
+                    },
+
+                ],
+                silent: true, // 刷新事件必须设置
+                onLoadSuccess: function () {  //加载成功时执行
+                    console.info("加载成功");
+                },
+                onLoadError: function () {  //加载失败时执行
+                    console.info("加载数据失败");
+                },
+                // onDblClickRow: function (row, $element) {//点击事件
+                //     var id = row.id;
+                //     console.log(id)
+                // },
+
+            })
+
+            //操作栏的格式化
+            function actionFormatter(value, row, index) {
+                //value 获取的是field的值，row 获取的是自身栏的所有值，index，获取的该栏的位置即下标
+                var id = value;
+                var result = "";
+                result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+                result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+                result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+                return result;
+            }
+
+            // 查询
+            $("#btn_query").click(function () {
+                $("#txt_search_name2 option:selected").val();// 获取select的值
+                $('#table').bootstrapTable('refresh');//刷新
+
+            })
+
+            // 重置
+            $("#btn_reset").click(function () {
+                $("#unitName").val("");// 企业名称
+                $("#unitCode").val("");// 组织机构代码
+                $('#table').bootstrapTable('refresh');//刷新
+
+            })
+
+        })
+    </script>
+</head>
+<body>
+
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">企业查询</div>
+        <div class="panel-body" style="padding-bottom:0px;">
+
+            <div class="panel-body">
+                <!--<form id="formSearch" class="form-horizontal">-->
+                    <div class="form-group" style="margin-top:15px">
+
+                        <label class="control-label col-sm-1" for="unitName">企业名称</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="unitName">
+                        </div>
+
+                        <label class="control-label col-sm-1" for="unitCode">组织机构代码</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="unitCode">
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="btn_query" class="btn btn-primary ">
+                                <span class="glyphicon glyphicon-search"></span> 查询
+
+                            </button>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" id="btn_reset" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-refresh"></span> 重置
+
+                            </button>
+                        </div>
+
+                    </div>
+
+                <!--</form>-->
+            </div>
+            <!--</div>-->
+        </div>
+        <!--bootstrap-table-->
+        <table id="table"></table>
+    </div>
+</div>
+</body>
+</html>
