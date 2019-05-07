@@ -1,17 +1,10 @@
 package com.java.ting;
 
-import com.java.ting.dev.UserMapper;
-import com.java.ting.dev.dao.CompanyDao;
-import com.java.ting.dev.entity.User;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
