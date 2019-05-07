@@ -1,5 +1,6 @@
 package com.java.ting.application;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,8 @@ import java.util.Map;
  * @author TingOu
  */
 @Controller
+@Slf4j
 public class GlobalExceptionHandler implements ErrorController {
-
-    private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Override
     public String getErrorPath() {
@@ -35,7 +35,6 @@ public class GlobalExceptionHandler implements ErrorController {
     public String handleError(HttpServletRequest request, Exception e) {
         //获取statusCode:401,404,500
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-//        System.out.println("错误----》" + e.getMessage());
         if (statusCode == 401) {
             return "errorPage/401";
         } else if (statusCode == 404) {

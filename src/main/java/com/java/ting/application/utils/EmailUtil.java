@@ -34,10 +34,14 @@ public class EmailUtil {
      */
     public void sendSimpleMail() {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(name);// 发件人
-        message.setTo("1847558440@qq.com");// 接收人
-        message.setSubject("主题：简单邮件");// 标题
-        message.setText("田浩然");// 内容
+        // 发件人
+        message.setFrom(name);
+        // 接收人
+        message.setTo("*******@qq.com");
+        // 标题
+        message.setSubject("主题：简单邮件");
+        // 内容
+        message.setText("**");
         mailSender.send(message);
     }
 
@@ -51,10 +55,10 @@ public class EmailUtil {
         helper.setTo("1486630136@qq.com");
         helper.setSubject("主题：有附件");
         helper.setText("有附件的邮件");
-
-        FileSystemResource file = new FileSystemResource(new File("weixin.jpg"));// 文件
-        helper.addAttachment("附件-1.jpg", file); //
-        helper.addAttachment("附件-2.jpg", file); //
+        // 文件
+        FileSystemResource file = new FileSystemResource(new File("weixin.jpg"));
+        helper.addAttachment("附件-1.jpg", file);
+        helper.addAttachment("附件-2.jpg", file);
 
         mailSender.send(mimeMessage);
     }
@@ -99,6 +103,4 @@ public class EmailUtil {
         mailSender.send(mimeMessage);
     }
 
-    public static void main(String[] args) {
-    }
 }

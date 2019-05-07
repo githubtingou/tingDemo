@@ -9,7 +9,7 @@
      status as "status"
 
     </sql>
-    <select id="findList" resultType="com.java.ting.dev.entity.User">
+    <select id="PageUser" resultType="com.java.ting.dev.entity.User">
         SELECT
         <include refid="user"></include>
         from user

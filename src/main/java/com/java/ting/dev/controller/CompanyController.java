@@ -3,6 +3,7 @@ package com.java.ting.dev.controller;
 import com.java.ting.application.utils.BaseController;
 import com.java.ting.dev.entity.Company;
 import com.java.ting.dev.service.CompanyService;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -25,11 +26,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/${adminPath}")
 @EnableScheduling
+@Slf4j
 public class CompanyController extends BaseController {
     @Autowired
     CompanyService companyService;
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 每天0:00将固废的公司数据插入数据库中
@@ -40,7 +40,7 @@ public class CompanyController extends BaseController {
     public void insert() {
         //设置日期格式
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.debug("定时任务--执行插入数据");
+        log.debug("定时任务--执行插入数据");
         // 每次执行前先删除company表中的数据
         companyService.deleteAll();
         // 首次获取接口的总数

@@ -52,7 +52,7 @@ public class CompanyService {
             }
 
         }
-        dao.insertAll(companyList);
+        dao.insertCompany(companyList);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.java.ting.application.system.controller;
 import com.java.ting.application.utils.BaseController;
 import com.java.ting.application.system.entity.AdminMenu;
 import com.java.ting.application.system.service.AdminMenuService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "${frontPath}")
+@Slf4j
 public class AdminMenuController extends BaseController {
     @Autowired
     private AdminMenuService adminMenuService;

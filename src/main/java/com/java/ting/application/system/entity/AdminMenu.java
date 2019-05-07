@@ -2,12 +2,18 @@ package com.java.ting.application.system.entity;
 
 
 import com.java.ting.application.utils.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 菜单实体类
  *
  * @author TingOu
  */
+@Getter
+@Setter
+@ToString
 public class AdminMenu extends BaseEntity<AdminMenu> {
 
     /**
@@ -52,83 +58,4 @@ public class AdminMenu extends BaseEntity<AdminMenu> {
      */
     private String status;
 
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
-    }
-
-    public String getTreeCode() {
-        return treeCode;
-    }
-
-    public void setTreeCode(String treeCode) {
-        this.treeCode = treeCode;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
-    }
-
-    public String getMenuHref() {
-        return menuHref;
-    }
-
-    public void setMenuHref(String menuHref) {
-        this.menuHref = menuHref;
-    }
-
-    public String getMenuTarget() {
-        return menuTarget;
-    }
-
-    public void setMenuTarget(String menuTarget) {
-        this.menuTarget = menuTarget;
-    }
-
-    public String getMenuIcon() {
-        return menuIcon;
-    }
-
-    public void setMenuIcon(String menuIcon) {
-        this.menuIcon = menuIcon;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
-    public String getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(String isShow) {
-        this.isShow = isShow;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

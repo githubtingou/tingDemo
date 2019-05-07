@@ -12,5 +12,11 @@ import java.util.List;
 @Mapper
 @Transactional(readOnly = true)
 public interface AdminMenuDao {
-    public List<AdminMenu> findParentList(AdminMenu adminMenu);
+    /**
+     * 查询菜单
+     *
+     * @param adminMenu
+     * @return
+     */
+    List<AdminMenu> findParentList(AdminMenu adminMenu);
 }

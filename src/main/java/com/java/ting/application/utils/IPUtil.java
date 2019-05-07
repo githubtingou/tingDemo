@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 获取IP地址
+ *
+ * @author TingOu
  */
 public class IPUtil {
     public String getIpAddress(HttpServletRequest request) {

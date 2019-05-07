@@ -25,11 +25,6 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-//    public List<User> findList() {
-//
-//        return userDao.findList();
-//    }
-
     public User findUser(String name) {
         return userDao.findUser(name);
     }
@@ -54,7 +49,7 @@ public class UserService {
      */
     public Page<User> findList(Page<User> page) {
 
-        return userDao.findList(page);
+        return userDao.PageUser(page);
     }
 
 }

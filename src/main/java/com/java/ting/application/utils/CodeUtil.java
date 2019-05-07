@@ -16,11 +16,17 @@ import java.util.Random;
  * @描述 验证码
  **/
 public class CodeUtil {
-    // 定义图片的width
+    /**
+     * 定义图片的width
+     */
     private static int width = 90;
-    // 定义图片的height
+    /**
+     * 定义图片的height
+     */
     private static int height = 20;
-    // 定义图片上显示验证码的个数
+    /**
+     * 定义图片上显示验证码的个数
+     */
     private static int codeCount = 4;
     private static int xx = 15;
     private static int fontHeight = 18;

@@ -105,7 +105,7 @@
     </insert>
 
     <!--循环插入所有数据-->
-    <insert id="insertAll">
+    <insert id="insertCompany">
         INSERT INTO company (
         id,
         unitName,
@@ -161,6 +161,10 @@
     <!--删除所有数据-->
     <delete id="deleteAll">
         DELETE from company
+    </delete>
+
+    <delete id="deleteById">
+        DELETE from company WHERE id = #{id}
     </delete>
 
 </mapper>

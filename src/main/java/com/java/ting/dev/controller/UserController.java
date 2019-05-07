@@ -7,10 +7,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,11 +32,10 @@ import java.util.Map;
 @Controller
 public class UserController extends BaseController {
 
-
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    Environment env;
+    private Environment env;
 
     /**
      * 调转到首页
@@ -192,14 +188,7 @@ public class UserController extends BaseController {
         }
         return result;
     }
-
-//    @RequestMapping("/findList")
-//    public String findList(Model model) {
-//        List<User> list = userService.findList();
-//        model.addAttribute("list", list);
-//        return "index";
-//    }
-
+    
     /**
      * 用户信息
      *

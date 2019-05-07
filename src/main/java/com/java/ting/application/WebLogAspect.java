@@ -1,5 +1,6 @@
 package com.java.ting.application;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,9 +25,9 @@ import java.util.Arrays;
 @Aspect
 @Order(5)
 @Component
+@Slf4j
 public class WebLogAspect {
-    Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
-    ThreadLocal<Long> startTime = new ThreadLocal<>();
+    ThreadLocal<Long> startTime = new ThreadLocal<Long>();
 
     @Pointcut("execution(public *  com.java.ting.dev..*.*(..))")
     public void webLog() {
@@ -44,15 +45,15 @@ public class WebLogAspect {
          * 记录下请求内容
          */
         // 请求路径
-        logger.info("URL : " + request.getRequestURL().toString());
+        log.info("URL : {}", request.getRequestURL().toString());
         // 请求方式
-        logger.info("HTTP_METHOD : " + request.getMethod());
+        log.info("HTTP_METHOD : {} ", request.getMethod());
         // 请求IP
-        logger.info("IP : " + request.getRemoteAddr());
+        log.info("IP : {}", request.getRemoteAddr());
         // 请求方法名
-        logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        log.info("CLASS_METHOD : {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         // 请求参数
-        logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
+        log.info("ARGS : }{", Arrays.toString(joinPoint.getArgs()));
 
     }
 
@@ -62,7 +63,7 @@ public class WebLogAspect {
          *  处理完请求，返回内容
          */
         // 返回参数
-        logger.info("RESPONSE : " + ret);
-        logger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
+        log.info("RESPONSE : {}", ret);
+        log.info("SPEND TIME : {}", (System.currentTimeMillis() - startTime.get()));
     }
 }
