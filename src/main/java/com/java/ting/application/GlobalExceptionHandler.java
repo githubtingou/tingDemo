@@ -28,7 +28,8 @@ public class GlobalExceptionHandler implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return "/error";// 出现异常时跳到 @RequestMapping("/error") 进行处理
+        // 出现异常时跳到 @RequestMapping("/error") 进行处理
+        return "/error";
     }
 
     @RequestMapping("/error")

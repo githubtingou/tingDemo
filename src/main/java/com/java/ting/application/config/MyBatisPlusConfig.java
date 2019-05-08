@@ -1,6 +1,7 @@
 package com.java.ting.application.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.java.ting.application.config.enums.ResponseVo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
