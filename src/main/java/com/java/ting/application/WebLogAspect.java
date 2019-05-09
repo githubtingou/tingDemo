@@ -53,7 +53,7 @@ public class WebLogAspect {
         // 请求方法名
         log.info("CLASS_METHOD : {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         // 请求参数
-        log.info("ARGS : }{", Arrays.toString(joinPoint.getArgs()));
+        log.info("ARGS : {}", Arrays.toString(joinPoint.getArgs()));
 
     }
 

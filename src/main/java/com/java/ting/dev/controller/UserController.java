@@ -1,5 +1,6 @@
 package com.java.ting.dev.controller;
 
+import com.java.ting.application.config.dto.ResponseVo;
 import com.java.ting.application.utils.BaseController;
 import com.java.ting.dev.entity.User;
 import com.java.ting.dev.service.UserService;
@@ -36,16 +37,6 @@ public class UserController extends BaseController {
     private UserService userService;
     @Autowired
     private Environment env;
-
-    /**
-     * 调转到首页
-     *
-     * @return
-     */
-    @RequestMapping(value = "login")
-    public String login(HttpServletRequest response, HttpServletRequest request, HttpSession session) {
-        return "login";
-    }
 
     /**
      * 跳转到后台首页
@@ -188,7 +179,7 @@ public class UserController extends BaseController {
         }
         return result;
     }
-    
+
     /**
      * 用户信息
      *
@@ -267,6 +258,17 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/${frontPath}/ztreeDemo")
     public String ztreeDemo() {
         return "front/ztreeDemo";
+    }
+
+    @RequestMapping(value = "/front/responseVo")
+    @ResponseBody
+    public ResponseVo testCoo() {
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.setIsSuccess(true);
+        responseVo.setCode(200);
+        responseVo.setDesc("成功");
+        responseVo.setData(userService.findUser("lisi"));
+        return responseVo;
     }
 }
 

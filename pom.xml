@@ -52,11 +52,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <!-- thymeleaf严格html5校验 -->
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
         </dependency>
+        
         <!--添加Swagger2依赖-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -98,13 +100,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j</artifactId>
         </dependency>
-
-        <!--druid连接池-->
-        <!--<dependency>-->
-        <!--<groupId>com.alibaba</groupId>-->
-        <!--<artifactId>druid</artifactId>-->
-        <!--<version>1.1.0</version>-->
-        <!--</dependency>-->
 
         <!--net.sf.json-->
         <dependency>
@@ -202,6 +197,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -215,20 +211,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!--防止出现Failed to decode downloaded font-->
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--<version>2.1.1</version>-->
-            <!--<configuration>-->
-            <!--<webResources>-->
-            <!--<resource>-->
-            <!--<directory>src/main/resources</directory>-->
-            <!--<filtering>false</filtering>-->
-            <!--</resource>-->
-            <!--</webResources>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
+
         </plugins>
     </build>
 </project>

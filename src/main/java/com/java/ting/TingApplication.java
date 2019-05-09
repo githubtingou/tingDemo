@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @ServletComponentScan
-@MapperScan({"com.java.ting.dev.dao", "com.java.ting.application.system.dao"})
+@MapperScan({"com.java.ting.dev.dao", "com.java.ting.application"})
 public class TingApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
