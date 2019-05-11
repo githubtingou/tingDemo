@@ -1,24 +1,21 @@
 package com.java.ting.application;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 /**
- * 获取请求信息
+ * 切面
  *
  * @author TingOu
  */
@@ -53,7 +50,7 @@ public class WebLogAspect {
         // 请求方法名
         log.info("CLASS_METHOD : {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         // 请求参数
-        log.info("ARGS : {}", Arrays.toString(joinPoint.getArgs()));
+        log.info("ARGS : {}", joinPoint.getArgs());
 
     }
 

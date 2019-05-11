@@ -1,11 +1,15 @@
 package com.java.ting.dev.controller;
 
+import com.google.gson.Gson;
 import com.java.ting.application.config.dto.ResponseVo;
+import com.java.ting.application.config.enums.ResponseCode;
+import com.java.ting.application.config.utils.ResponseVoUtil;
 import com.java.ting.application.utils.BaseController;
 import com.java.ting.dev.entity.User;
 import com.java.ting.dev.service.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -263,12 +267,8 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/front/responseVo")
     @ResponseBody
     public ResponseVo testCoo() {
-        ResponseVo responseVo = new ResponseVo();
-        responseVo.setIsSuccess(true);
-        responseVo.setCode(200);
-        responseVo.setMsg("成功");
-        responseVo.setData(userService.findUser("lisi"));
-        return responseVo;
+        String str = "{\"lisi\":\"122\",\"111\":\"111\"}";
+        return new ResponseVoUtil().buildeResponseCode(ResponseCode.successCode, str);
     }
 }
 

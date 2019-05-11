@@ -8,11 +8,17 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 用户 dao
+ *
+ * @author TingOu
+ */
 @Mapper
 public interface UserDao {
 
     /**
      * 分页查询用户
+     *
      * @param page
      * @return
      */

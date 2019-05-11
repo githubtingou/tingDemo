@@ -17,18 +17,18 @@ public enum ResponseCode {
 
     private Boolean isSuccess;
     private Integer code;
-    private String desc;
+    private String msg;
 
-    ResponseCode(Boolean isSuccess, String desc) {
+    ResponseCode(Boolean isSuccess, String msg) {
         this.isSuccess = isSuccess;
-        this.desc = desc;
+        this.msg = msg;
 
     }
 
-    ResponseCode(Boolean isSuccess, Integer code, String desc) {
+    ResponseCode(Boolean isSuccess, Integer code, String msg) {
         this.isSuccess = isSuccess;
         this.code = code;
-        this.desc = desc;
+        this.msg = msg;
 
     }
 
@@ -40,12 +40,12 @@ public enum ResponseCode {
         this.isSuccess = isSuccess;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Integer getCode() {
