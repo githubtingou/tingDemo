@@ -266,7 +266,7 @@ public class UserController extends BaseController {
         ResponseVo responseVo = new ResponseVo();
         responseVo.setIsSuccess(true);
         responseVo.setCode(200);
-        responseVo.setDesc("成功");
+        responseVo.setMsg("成功");
         responseVo.setData(userService.findUser("lisi"));
         return responseVo;
     }

@@ -14,6 +14,6 @@ import lombok.ToString;
 public class ResponseVo<T> {
     private Boolean isSuccess;
     private Integer code;
-    private String desc;
+    private String msg;
     private T data;
 }
