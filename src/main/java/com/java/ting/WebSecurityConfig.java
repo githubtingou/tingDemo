@@ -24,6 +24,8 @@ import static org.springframework.security.config.Elements.REMEMBER_ME;
 
 /**
  * Spring Security 拦截器
+ *
+ * @author TingOu
  */
 @Configuration
 @EnableWebSecurity
@@ -51,17 +53,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 设置默认登陆页面/login
                 .and().formLogin().loginPage("/login").usernameParameter("username")
                 .passwordParameter("password").failureUrl("/login?error=true")
-                .successHandler(new ForwardAuthenticationSuccessHandler("/" + adminPath + "/index"))// 指定登陆成功后跳转的路径
+                // 指定登陆成功后跳转的路径
+                .successHandler(new ForwardAuthenticationSuccessHandler("/" + adminPath + "/index"))
                 .permitAll() // 登录页面用户任意访问
                 .and().headers().defaultsDisabled().cacheControl()// 解决用户安全退出后点击返回仍进入需验证的页面
                 .and().frameOptions().sameOrigin().and()// 跨域问题
                 .logout().logoutUrl("/loginOut").logoutSuccessUrl("/login")
-                .deleteCookies("JSESSIONID").invalidateHttpSession(true)//删除当前的JSESSIONID
+                //删除当前的JSESSIONID
+                .deleteCookies("JSESSIONID").invalidateHttpSession(true)
                 .permitAll()
                 .and()
                 .csrf().disable() // 关闭csrf认证
                 .rememberMe()
-                .and().sessionManagement().maximumSessions(1).expiredUrl("/login"); //控制单个用户只能创建一个session，也就只能在服务器登录一次
+                //控制单个用户只能创建一个session，也就只能在服务器登录一次
+                .and().sessionManagement().maximumSessions(1).expiredUrl("/login");
     }
 
     @Override
@@ -90,13 +95,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * Spring secuirty 配置
      *
      * @return
+     * @author TingOu
      */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setHideUserNotFoundExceptions(false); // 显示UserNotFoundExceptions
+        // 显示UserNotFoundExceptions
+        provider.setHideUserNotFoundExceptions(false);
         provider.setUserDetailsService(customUserService());
-        provider.setPasswordEncoder(bCryptEncoder());// 密码加密
+        // 密码加密
+        provider.setPasswordEncoder(bCryptEncoder());
         return provider;
     }
 //    @Bean

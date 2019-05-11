@@ -16,6 +16,8 @@ import java.util.Map;
 
 /**
  * 发送邮件
+ *
+ * @author TingOu
  */
 public class EmailUtil {
     @Autowired

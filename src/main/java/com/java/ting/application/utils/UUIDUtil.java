@@ -2,6 +2,7 @@ package com.java.ting.application.utils;
 
 /**
  * uuid工具类
+ *
  * @author TingOu
  */
 public class UUIDUtil {

@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * 验证码
+ *
  * @author TingOu
  * @date 2018/12/5
- * @描述 验证码
  **/
 public class CodeUtil {
     /**

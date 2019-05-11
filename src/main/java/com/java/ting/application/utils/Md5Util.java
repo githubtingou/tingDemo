@@ -8,9 +8,10 @@ import java.security.NoSuchAlgorithmException;
 
 
 /**
- * @author  Ting
- * @创建时间: 2018/10/21 19:40
- * @说明
+ * md5 工具类
+ *
+ * @author Ting
+ * @date : 2018/10/21 19:40
  */
 public class Md5Util {
 
@@ -53,8 +54,7 @@ public class Md5Util {
     public boolean checkPassword(String newPasswd, String oldPasswd) {
         if (encoderByMd5(newPasswd).equals(oldPasswd)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

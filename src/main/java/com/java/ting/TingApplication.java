@@ -7,6 +7,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+/**
+ * spring boot 启动类
+ *
+ * @author TingOu
+ */
 @SpringBootApplication
 @ServletComponentScan
 @MapperScan({"com.java.ting.dev.dao", "com.java.ting.application"})

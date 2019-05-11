@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * 公共实体类
+ * @author TingOu
  */
 @Getter
 @Setter

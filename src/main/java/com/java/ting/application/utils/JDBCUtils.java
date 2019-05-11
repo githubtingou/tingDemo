@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 获取mysql数据库信息
+ *
  * @author TingOu
  * @date 2018/12/11
- * @描述 获取mysql数据库信息
  **/
 public class JDBCUtils {
     private final static Logger LOGGER = LoggerFactory.getLogger(JDBCUtils.class);
