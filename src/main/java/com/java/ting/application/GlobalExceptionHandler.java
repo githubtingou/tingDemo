@@ -1,31 +1,27 @@
 package com.java.ting.application;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * 统一异常管理
  *
  * @author TingOu
+ * @version 1.0
+ * @date 2019-05-12
  */
 @Controller
 @Slf4j
 public class GlobalExceptionHandler implements ErrorController {
+    private static final String POST = "POST";
+    private static final String GET = "GET";
+
 
     @Override
     public String getErrorPath() {
@@ -35,20 +31,49 @@ public class GlobalExceptionHandler implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Exception e) {
-        //获取statusCode:401,404,500
+        log.error("GlobalExceptionHandler 统一处理系统错误，错误代码：{}", e);
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if (statusCode == 401) {
-            return "errorPage/401";
-        } else if (statusCode == 404) {
-            return "errorPage/404";
-        } else if (statusCode == 403) {
-            return "errorPage/403";
+        String method = request.getMethod();
+        if (POST.equals(method)) {
+            ServletInputStream inputStream = null;
+            try {
+                inputStream = request.getInputStream();
+            } catch (IOException ex) {
+                log.error("post类型获取参数错误：{}", ex);
+            }
+            request.setAttribute("data", postParm(inputStream));
         } else {
-            return "errorPage/500";
+            request.setAttribute("data", request.getQueryString());
         }
-
+        request.setAttribute("URL", request.getRequestURL());
+        request.setAttribute("error", e);
+        request.setAttribute("method", method);
+        request.setAttribute("contentType", request.getContentType());
+        request.setAttribute("status", statusCode);
+        return "errorPage/error";
     }
 
+    /**
+     * 获取post类型的参数
+     *
+     * @param inputStream
+     * @return
+     */
+    public String postParm(ServletInputStream inputStream) {
+        StringBuilder content = new StringBuilder();
+        try {
+            byte[] b = new byte[1024];
+            int lens = -1;
+            while ((lens = inputStream.read(b)) > 0) {
+                content.append(new String(b, 0, lens));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            log.error("postParm()方法中inputStream.read()错误：{}", ex);
+        }
+        return content.toString();
+
+    }
 
 //    @ExceptionHandler(value = Exception.class)
 //    public String defaultErrorHandler(HttpServletRequest req, Exception e, Model model) throws Exception {

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+</head>
+<body>
+<p th:text="'请求路径:' + ${URL}"/>
+<p th:text="'请求方式:' + ${method}"/>
+<p th:text="'请求类型:' + ${contentType}"/>
+<p th:text="'错误状态码:' + ${status}"/>
+<p th:text="'请求参数:' + ${data}"/>
+<p th:text="'错误代码:' + ${error}"/>
+</body>
+</html>

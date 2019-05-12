@@ -9,13 +9,20 @@ import java.util.List;
 
 /**
  * 后台菜单Service
- * @author  TingOu
+ *
+ * @author TingOu
  */
 @Service
 public class AdminMenuService {
     @Autowired
     AdminMenuDao dao;
 
+    /**
+     * 菜单
+     *
+     * @param adminMenu
+     * @return
+     */
     public List<AdminMenu> findParentList(AdminMenu adminMenu) {
         return dao.findParentList(adminMenu);
     }

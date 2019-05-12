@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * 后台菜单Controller
+ *
+ * @author TingOu
  */
 @Controller
 @RequestMapping(value = "${frontPath}")
@@ -24,8 +26,6 @@ public class AdminMenuController extends BaseController {
     @RequestMapping(value = "adminMenu")
     @ResponseBody
     public List adminMenuList(AdminMenu adminMenu) {
-        System.out.println(adminMenuService.findParentList(adminMenu));
-        System.out.println("-------");
         return adminMenuService.findParentList(adminMenu);
     }
 }

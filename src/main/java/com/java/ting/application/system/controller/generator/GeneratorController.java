@@ -4,8 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 自动生成文件
+ *
  * @author Tingou
- * @since 2019年4月29日
+ * @date 2019年4月29日
  */
 @Controller
 @RequestMapping(value = "${frontPath}/generator")
