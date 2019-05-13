@@ -1,13 +1,11 @@
 package com.java.ting.dev.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.java.ting.application.utils.UUIDUtil;
-import com.java.ting.dev.dao.CompanyDao;
 import com.java.ting.dev.dao.UserDao;
-import com.java.ting.dev.entity.Company;
 import com.java.ting.dev.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +25,10 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    @Cacheable(cacheNames = "user.name", key = "#name")
     public User findUser(String name) {
-        return userDao.findUser(name);
+        User user = userDao.findUser(name);
+        return user;
     }
 
     public List<User> findUserPage(Map<String, Object> map) {
@@ -50,7 +50,6 @@ public class UserService {
      * @return
      */
     public Page<User> findList(Page<User> page) {
-
         return userDao.PageUser(page);
     }
 

@@ -9,8 +9,8 @@ import com.java.ting.dev.entity.User;
 import com.java.ting.dev.service.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +39,7 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private Environment env;
 
@@ -266,9 +267,9 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/front/responseVo")
     @ResponseBody
-    public ResponseVo testCoo() {
-        String str = "{\"lisi\":\"122\",\"111\":\"111\"}";
-        return new ResponseVoUtil().buildeResponseCode(ResponseCode.successCode, str);
+    public ResponseVo testCoo(@RequestParam(value = "name") String name) {
+        User user = userService.findUser(name);
+        return new ResponseVoUtil().buildeResponseCode(ResponseCode.successCode, user);
     }
 }
 

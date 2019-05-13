@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * 返回参数封装
  *
@@ -13,7 +15,10 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class ResponseVo<T> {
+public class ResponseVo<T> implements Serializable {
+    
+    private static final long serialVersionUID = -7568252497935349132L;
+
     private Boolean isSuccess;
     private Integer code;
     private String msg;

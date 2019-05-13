@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 切面
@@ -36,6 +38,8 @@ public class WebLogAspect {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        request.setCharacterEncoding("UTF-8");
+
         /**
          * 记录下请求内容
          */
@@ -60,7 +64,6 @@ public class WebLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
-
         // 返回参数
         log.info("RESPONSE : {}", ret);
         log.info("SPEND TIME : {}", (System.currentTimeMillis() - startTime.get()));

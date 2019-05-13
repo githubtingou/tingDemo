@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * spring boot 启动类
@@ -14,6 +15,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 @ServletComponentScan
+@EnableCaching
 @MapperScan({"com.java.ting.dev.dao", "com.java.ting.application"})
 public class TingApplication extends SpringBootServletInitializer {
     @Override
